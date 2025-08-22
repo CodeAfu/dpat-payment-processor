@@ -64,7 +64,7 @@ public class MetricsAnalyzer {
     }
     
     private static void saveToCSV() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("simple_metrics.csv"))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("class_metrics.csv"))) {
             // Header
             writer.println("ClassName,LOC,WMC,CBO,RFC,LCOM,DIT,NOC");
             
