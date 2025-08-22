@@ -20,17 +20,16 @@ choco install maven
 scoop install main/maven
 ```
 
-
 Run:
 
 ```bash
-mvn exec:java
-# OR
 mvn exec:java "-Dexec.mainClass=com.ias.dpat.App"
 ```
 
 Flexibility Metrics:
 
 ```bash
+mvn clean compile
 mvn compile exec:java "-Dexec.mainClass=com.ias.dpat.MetricsAnalyzer"
+mvn compile exec:java "-Dexec.mainClass=com.ias.dpat.MetricsComparator"
 ```
