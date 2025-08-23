@@ -57,14 +57,15 @@ public class MetricsAnalyzer {
             System.out.println("  NOC: " + result.getNoc());
         }
         
-        // Save to simple CSV
+        // Save to CSV
         saveToCSV();
         
         System.out.println("\nAnalysis complete! Check 'simple_metrics.csv' for results.");
     }
     
     private static void saveToCSV() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("class_metrics.csv"))) {
+        String filename = "class_metrics.csv";
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
             // Header
             writer.println("ClassName,LOC,WMC,CBO,RFC,LCOM,DIT,NOC");
             
@@ -82,7 +83,7 @@ public class MetricsAnalyzer {
                 );
             }
             
-            System.out.println("CSV file saved as 'simple_metrics.csv'");
+            System.out.println("CSV file saved as `" + filename + "'");
             
         } catch (IOException e) {
             System.err.println("Error writing CSV: " + e.getMessage());

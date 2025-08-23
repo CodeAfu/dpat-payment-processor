@@ -1,7 +1,10 @@
 package com.ias.dpat;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MetricsComparator {
     
@@ -76,7 +79,7 @@ public class MetricsComparator {
         System.out.println("=".repeat(80));
         
         // Overall statistics
-        System.out.println("\n📊 OVERALL STATISTICS");
+        System.out.println("\nOVERALL STATISTICS");
         System.out.println("-".repeat(50));
         System.out.printf("Total classes analyzed: %d%n", metrics.size());
         
@@ -88,8 +91,22 @@ public class MetricsComparator {
         System.out.printf("Average coupling (CBO): %.1f%n", avgCoupling);
         System.out.printf("Average cohesion (LCOM): %.1f%n", avgCohesion);
         
+        // Total
+        System.out.println("\nALL CLASSES");
+        System.out.println("-".repeat(50));
+        metrics.sort((a, b) -> Double.compare(b.getFlexibilityScore(), a.getFlexibilityScore()));
+        
+        System.out.printf("%-40s | %-15s | Score%n", "Class", "Grade", "");
+        System.out.println("-".repeat(70));
+        
+        for (int i = 0; i < metrics.size(); i++) {
+            ClassMetrics m = metrics.get(i);
+            System.out.printf("%-40s | %-15s | %.1f%n", 
+                shortenClassName(m.className), m.getFlexibilityGrade(), m.getFlexibilityScore());
+        }
+
         // Top performers
-        System.out.println("\n🏆 MOST FLEXIBLE CLASSES (Top 5)");
+        System.out.println("\nMOST FLEXIBLE CLASSES (Top 5)");
         System.out.println("-".repeat(50));
         metrics.sort((a, b) -> Double.compare(b.getFlexibilityScore(), a.getFlexibilityScore()));
         
@@ -103,7 +120,7 @@ public class MetricsComparator {
         }
         
         // Bottom performers
-        System.out.println("\n⚠️  LEAST FLEXIBLE CLASSES (Bottom 5)");
+        System.out.println("\nLEAST FLEXIBLE CLASSES (Bottom 5)");
         System.out.println("-".repeat(50));
         
         System.out.printf("%-40s | %-15s | Score | Issues%n", "Class", "Grade", "");
@@ -117,19 +134,19 @@ public class MetricsComparator {
         }
         
         // Pattern analysis
-        System.out.println("\n🎯 DESIGN PATTERN ANALYSIS");
+        System.out.println("\nDESIGN PATTERN ANALYSIS");
         System.out.println("-".repeat(50));
         
         analyzePatterns(metrics, "simple", "Simple/Naive Approach");
         analyzePatterns(metrics, "flexible", "Flexible/Pattern Approach");
         
         // Recommendations
-        System.out.println("\n💡 RECOMMENDATIONS");
+        System.out.println("\nRECOMMENDATIONS");
         System.out.println("-".repeat(50));
         
         for (ClassMetrics m : metrics) {
             if (m.getFlexibilityScore() < 60) {
-                System.out.printf("🔧 %s: %s%n", shortenClassName(m.className), getRecommendations(m));
+                System.out.printf("%s: %s%n", shortenClassName(m.className), getRecommendations(m));
             }
         }
         
@@ -151,7 +168,7 @@ public class MetricsComparator {
             title, avgScore, patternClasses.size());
             
         for (ClassMetrics m : patternClasses) {
-            System.out.printf("  • %s: %.1f%n", 
+            System.out.printf("%s: %.1f%n", 
                 shortenClassName(m.className), m.getFlexibilityScore());
         }
     }

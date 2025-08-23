@@ -1,6 +1,6 @@
 # Payment System
 
-## Setup
+## How to use
 
 Install maven using your preferred package manager
 
@@ -20,13 +20,13 @@ choco install maven
 scoop install main/maven
 ```
 
-Run:
+Run Program:
 
 ```bash
 mvn exec:java "-Dexec.mainClass=com.ias.dpat.App"
 ```
 
-Flexibility Metrics:
+Run Flexibility Metrics Calculation:
 
 ```bash
 mvn clean compile
