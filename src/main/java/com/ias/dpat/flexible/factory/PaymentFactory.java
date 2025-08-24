@@ -1,11 +1,10 @@
 package com.ias.dpat.flexible.factory;
 
-import com.ias.dpat.flexible.payment.CreditCardPayment;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import com.ias.dpat.flexible.payment.CreditCardPayment;
 import com.ias.dpat.flexible.payment.ApplePayPayment;
 import com.ias.dpat.flexible.payment.BankTransferPayment;
 import com.ias.dpat.flexible.payment.CryptocurrencyPayment;

@@ -71,6 +71,7 @@ public class MetricsAnalyzer {
             
             // Data
             for (CKClassResult result : results) {
+                if (result.getClassName().contains("Metrics")) continue;
                 writer.printf("%s,%d,%d,%d,%d,%d,%d,%d%n",
                     result.getClassName(),
                     result.getLoc(),
