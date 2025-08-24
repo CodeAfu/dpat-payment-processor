@@ -4,8 +4,7 @@ import com.ias.dpat.systems.FlexiblePaymentSystem;
 import com.ias.dpat.systems.NaivePaymentSystem;
 import com.ias.dpat.systems.PaymentSystem;
 
-public class App 
-{
+public class App {
     public static void main(String[] args) {
         PaymentSystem paymentSystem;
 

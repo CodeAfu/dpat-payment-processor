@@ -1,6 +1,11 @@
 package com.ias.dpat.flexible.factory;
 
 import com.ias.dpat.flexible.payment.CreditCardPayment;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
 import com.ias.dpat.flexible.payment.ApplePayPayment;
 import com.ias.dpat.flexible.payment.BankTransferPayment;
 import com.ias.dpat.flexible.payment.CryptocurrencyPayment;
@@ -10,23 +15,22 @@ import com.ias.dpat.flexible.strategy.PaymentStrategy;
 import com.ias.dpat.flexible.types.PaymentType;
 
 public class PaymentFactory extends AbstractPaymentFactory {
-    @Override
-    public PaymentStrategy createPaymentStrategy(PaymentType paymentType) {
-        switch (paymentType) {
-            case PaymentType.CREDIT_CARD:
-                return new CreditCardPayment();
-            case PaymentType.PAYPAL:
-                return new PayPalPayment();
-            case PaymentType.BANK_TRANSFER:
-                return new BankTransferPayment();
-            case PaymentType.APPLE_PAY:
-                return new ApplePayPayment();
-            case PaymentType.GOOGLE_PAY:
-                return new GooglePayPayment();
-            case PaymentType.CRYPTOCURRENCY:
-                return new CryptocurrencyPayment();
-            default:
-                throw new IllegalArgumentException("Unsupported payment type: " + paymentType);
-        }    
+    private final Map<PaymentType, Supplier<PaymentStrategy>> registry = new HashMap<>();
+
+    public PaymentFactory() {
+        registry.put(PaymentType.CREDIT_CARD, CreditCardPayment::new);
+        registry.put(PaymentType.PAYPAL, PayPalPayment::new);
+        registry.put(PaymentType.BANK_TRANSFER, BankTransferPayment::new);
+        registry.put(PaymentType.APPLE_PAY, ApplePayPayment::new);
+        registry.put(PaymentType.GOOGLE_PAY, GooglePayPayment::new);
+        registry.put(PaymentType.CRYPTOCURRENCY, CryptocurrencyPayment::new);
+    }
+
+    public PaymentStrategy createPaymentStrategy(PaymentType type) {
+        Supplier<PaymentStrategy> supplier = registry.get(type);
+        if (supplier == null) {
+            throw new IllegalArgumentException("Unsupported payment type: " + type);
+        }
+        return supplier.get();
     }
 }
